@@ -31,16 +31,26 @@
 #ifndef __SDS_H
 #define __SDS_H
 
+// sdshdr 结构体中 buf 最大容量
 #define SDS_MAX_PREALLOC (1024*1024)
 
 #include <sys/types.h>
 #include <stdarg.h>
 
+// 某个 sdshdr 结构体中 buf 的别名
 typedef char *sds;
 
+/**
+ * redis 实现的动态 strings 库: SDS
+ */
 struct sdshdr {
+    // 记录 buf 数组中已使用字节的数量
+    // 等于 SDS 所保存字符串长度
     unsigned int len;
+    // 记录 buf 数组中未使用字节的数量
+    // 用于减少修改字符串时带来的内存重分配问题
     unsigned int free;
+    // 字节数组，用于保存字符串
     char buf[];
 };
 
